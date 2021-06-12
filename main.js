@@ -22,20 +22,36 @@ const scene = new ScrollMagic.Scene({
   .setPin(intro) // intro 요소를 고정시킴. duration(10000)이 지난 후에는 따라오지 않음
   .addTo(controller); // Scene Object를 ScrollMaig Controller에 추가함
 
+//Text Animation
+const textAnim = TweenMax.fromTo(videoText, 3, { opacity: 1 }, { opacity: 0 });
+
+let scene2 = new ScrollMagic.Scene({
+  triggerElement: intro,
+  duration: 3000,
+  triggerHook: 0,
+})
+  .setTween(textAnim)
+  .addTo(controller);
+
 // Video Animation
-let accelamount = 0.1;
+let accelamount = 1;
 let scrollpos = 0;
 let delay = 0;
 
 scene.on("update", (e) => {
+  // scene에 .on을 통해서 eventListener를 다는데, trigger는 update
   scrollpos = e.scrollPos / 1000;
-  // console.log(e);
-  // console.log(e.scrollPos);
-  // console.log(scrollpos);
+  // e.scrollPos는 event의 scrollposition을 담고 있음
+  // scene이 update되면 scrollpos 변수의 값을 업데이트함
 });
 
 setInterval(() => {
   delay += (scrollpos - delay) * accelamount;
+  // 아래 값을 delay에 더해줌
+  // (현재 스크롤의 위치 - video의 기존 currentTime) * accelamount
+
   // console.log(scrollpos, delay);
-  video.currentTime = delay;
-}, 33.3);
+  video.currentTime = delay; // video의 현재재생시간에 delay를 할당
+}, 100); // video.currentTime를 0.03초 간격으로 업데이트
+
+// 이게 계속 실행되는 것도 문제다; 과부하 걸릴 듯.
