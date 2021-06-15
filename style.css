@@ -8,6 +8,12 @@ body {
 .intro {
   height: 100vh;
 }
+.intro .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
 .intro video {
   height: 100%;
   width: 100%;
